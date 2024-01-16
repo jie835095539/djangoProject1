@@ -1,0 +1,56 @@
+<!--导入引用的模板-->
+{% extends "layout.html" %}
+{% block content %}
+
+
+    <div class="container">
+        <h1 class="h4">用户列表</h1>
+        <div>
+            <a class="btn bg-success" href="/user/add/" style="margin-bottom: 10px">添加用户</a>
+            <a class="btn bg-success" href="/user/add/model/" style="margin-bottom: 10px">添加用户(新)</a>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>员工列表</div>
+            <table border="1" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>手机</th>
+                    <th>密码</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>部门</th>
+                    <th>账户</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for obj in data_list %}
+                    <tr>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.mobile }}</td>
+                        <td>{{ obj.password }}</td>
+                        <td>{{ obj.age }}</td>
+                        <!--通过获取数据库，性别并按照字典值进行展示-->
+                        <td>{{ obj.get_gender_display }}</td>
+                        <td>{{ obj.depart }}</td>
+                        <td>{{ obj.account }}</td>
+                        <!--获取时间，并将时间进行格式化后展示-->
+                        <td>{{ obj.create_time|date:"Y-m-d" }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="/user/edit/{{ obj.id }}/model/">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="/user/delect/?nid={{ obj.id }}">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div aria-label="Page navigation" class="clearfix">
+            <ul class="pagination">
+                {{ page_data }}
+            </ul>
+        </div>
+{% endblock %}

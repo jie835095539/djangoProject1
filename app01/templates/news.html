@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻中心</title>
+</head>
+<body>
+<h2>中国联通新闻中心</h2>
+<div>
+    <ul>
+        {% for item in news %}
+           <li><a href="https://www.chinaunicom.com.cn{{item.news_link}}" target="_blank">{{item.news_title}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!--导入模板-->
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="container">
+
+
+        <h1 class="h4">靓号管理</h1>
+        <div style="margin-bottom: 10px" class="clearfix">
+            <a class="btn bg-success" href="/mobile/add/">靓号添加</a>
+            <div style="float: right;width: 300px">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="手机号" name="mobile" value="{{ select_data }}">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                        </span>
+                    </div><!-- /input-group -->
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #d9edf7"><span class="glyphicon glyphicon-tasks"
+                                                                               aria-hidden="true"></span>靓号列表
+            </div>
+            <table border="1" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>手机</th>
+                    <th>价格</th>
+                    <th>级别</th>
+                    <th>状态</th>
+                    <th>是否有效</th>
+                    <th>权限</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for obj in data_obj %}
+                    <tr>
+                        <td>{{ obj.id }}</td>
+                        <td>{{ obj.mobile }}</td>
+                        <td>{{ obj.price }}</td>
+                        <!--通过获取数据库，性别并按照字典值进行展示-->
+                        <td>{{ obj.get_level_display }}</td>
+                        <!--获取时间，并将时间进行格式化后展示-->
+                        <td>{{ obj.get_status_display }}</td>
+                        <td>{{ obj.get_isdelect_display }}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" href="/mobile/{{ obj.id }}/edit/">编辑</a>
+                            <a class="btn btn-xs btn-danger" href="/mobile/{{ obj.id }}/delect/">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div aria-label="Page navigation" class="clearfix">
+            <ul class="pagination" style="float: left;" >
+                {{ page_data }}
+            </ul>
+
+
+        </div>
+    </div>
+{% endblock %}

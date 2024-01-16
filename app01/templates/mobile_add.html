@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="container">
+        <h1 class="h4">靓号添加</h1>
+        <hr>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group" >
+                <label >{{ field.label }}</label>
+                <!--<input class="form-control" type="text" name="age" placeholder="age">-->
+                {{ field }}
+            <span style="color: #d43f3a">{{ field.errors }}</span>
+            </div>
+             {% endfor %}
+            <div class="form-group"><input class="btn-primary" type="submit" name="submit"/></div>
+
+        </form>
+    </div
+
+
+{% endblock %}

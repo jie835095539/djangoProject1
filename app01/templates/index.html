@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block css %}
+    <style>
+        .container1 {
+            position: relative; /* 定义容器为相对定位 */
+        }
+
+        .background {
+            display: block; /* 将图片作为块级元素展示 */
+            width: 100%; /* 根据实际情况调整图片尺寸 */
+            height: auto;
+        }
+
+        .text {
+            position: absolute; /* 定义文本为绝对定位 */
+            top: 200px; /* 根据实际情况调整文本位置 */
+            left: 100px;
+            font-size: 64px; /* 根据实际情况调整文本大小 */
+            color: white; /* 根据实际情况调整文本颜色 */
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron container1">
+            <img alt="Background Image" class="background"  src="https://fe.imdada.cn/alaskan/static/d2276b0b8881504e51fcb5bc4dc97458/e6b9d/banner04.jpg">
+            <span class="text">Hello, world!</span>
+            <p>...</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img data-src="holder.js/100%x180" alt="100%x180"
+                         src="https://cdn.pixabay.com/photo/2023/12/05/01/13/elks-8430545_1280.jpg"
+                         data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img data-src="holder.js/100%x180" alt="100%x180"
+                         src="https://cdn.pixabay.com/photo/2023/11/25/12/57/sea-8411676_1280.jpg"
+                         data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img data-src="holder.js/100%x180" alt="100%x180"
+                         src="https://cdn.pixabay.com/photo/2023/06/07/18/36/salar-de-uyuni-8047872_1280.jpg"
+                         data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img data-src="holder.js/100%x180" alt="100%x180"
+                         src="https://cdn.pixabay.com/photo/2023/10/12/12/54/woman-8310747_1280.jpg"
+                         data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

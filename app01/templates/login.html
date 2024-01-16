@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中国联通后台管理系统</title>
+    <link rel="stylesheet" href="{% static "plugins/bootstrap-3.4.1/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "plugins/font-awesome/css/font-awesome.min.css" %}">
+   <style>
+       body{
+           background-image: url("https://i.alipayobjects.com/e/201311/1V4nsyvMbt_src.jpg");
+           background-size: cover;
+       }
+       .login{
+           width: 350px;
+           height: 280px;
+           margin-top: 200px;
+           margin-right: 200px;
+           background:rgba(0, 0, 0, 0.5);
+           color: #dddddd;
+           padding: 0px 0px 10px 35px ;
+
+
+       }
+   </style>
+    {% block css %} {% endblock %}
+</head>
+<body>
+<div class="navbar navbar-default" style="border-radius: 0">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index/"> <img style="width: 30px"
+                                                         src="{% static "img/liantongicn.png" %}"></a>
+            <a class="navbar-brand" href="/index/" style="color: #d43f3a">中国联通管理系统</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登录</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">张英东<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">员工信息</a></li>
+                        <li><a href="#">切换部门</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<!--引用此模板时，将要替换的内容-->
+    <div class="container login" >
+   <h3 style="margin: 25px 0px">用户登录</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group" >
+            <label >用户名称</label>
+            <input value="{{ user }}" type="text" name="user" class="form-control" placeholder="用户名" >
+            <span style="color: #d43f3a">{{ error_msg }}</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">密码</label>
+            <input type="password" name="psw" class="form-control" id="exampleInputPassword1" style="width: 280px" placeholder="密码"value="{{psw}}">
+        </div>
+        <input type="submit" value="登 录" id="" class="btn-primary">
+    </form>
+</div>
+
+
+
+<script type="text/javascript" src="{% static "js/jquery-3.7.1.min.js" %}"></script>
+<script type="text/javascript" src="{% static "plugins/bootstrap-3.4.1/js/bootstrap.js" %}"></script>
+{% block js %} {% endblock %}
+</body>
+</html>

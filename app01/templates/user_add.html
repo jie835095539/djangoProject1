@@ -1,0 +1,17 @@
+<!--导入引用的模板-->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1 class="h4">用户添加</h1>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group"> <label >员工姓名</label><input class="form-control" type="text" name="name" placeholder="name"></div>
+            <div class="form-group"> <label >手机号</label><input class="form-control" type="text" name="mobile" placeholder="mobile"></div>
+            <div class="form-group"> <label >登录密码</label><input class="form-control" type="text" name="password" placeholder="password"></div>
+            <div class="form-group"> <label >年龄</label><input class="form-control" type="text" name="age" placeholder="age"></div>
+            <div class="form-group"><input class="btn-primary" type="submit" name="submit"/></div>
+
+        </form>
+    </div>
+{% endblock %}

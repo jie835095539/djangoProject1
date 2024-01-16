@@ -1,0 +1,119 @@
+<!--引入内容-->
+{% extends "layout.html" %}
+
+<!--写本界面独有内容-->
+{% block content %}
+
+    <div class="container">
+        <h4>ajax测试方法1</h4>
+        <input id="btn" type="button" class="btn-success" value="提交">
+    </div>
+
+    <div class="container">
+        <h4>ajax测试方法2</h4>
+        <h5>主要通过，jQury通过ID的方式，逐一获取字段值，并返回后台</h5>
+        <input id="name" type="text" placeholder="姓名">
+        <input id="age" type="text" placeholder="年龄">
+        <input id="btn2" type="button" class="btn-success" value="提交">
+    </div>
+
+    <div class="container">
+        <h4>ajax测试方法3</h4>
+        <h5>可以将所有要传的数据放到form表单中，然后根据form表单id一次获取需要传的值</h5>
+        <form id="form1">
+            <input name="name" type="text" placeholder="姓名">
+            <input name="age" type="text" placeholder="年龄">
+            <input name="mobile" type="text" placeholder="手机">
+            <input name="sex" type="text" placeholder="性别">
+
+        </form>
+        <input id="btn3" type="submit" class="btn-success" value="提交">
+    </div>
+
+
+{% endblock %}
+
+
+
+<!--写本界面独有的js-->
+{% block js %}
+    <script>
+        $(function () {
+            //当界面加载完成后，代码自动执行如下,执行点击按钮事件
+            btnevent();
+            btn2event();
+            btn3event();
+
+        })
+
+        //定义一个函数事件，改事件为查找id为btn的按钮，点击时，进行ajax请求
+        function btnevent() {
+            $("#btn").click(function () {
+                $.ajax({
+                    url: "/test/sub/",
+                    type: "post",
+                    data: {
+                        n1: 1,
+                        n2: 2
+                    },
+                    success: function (res) {
+                        console.log(res)
+                    }
+                })
+
+            })
+        }
+
+        function btn2event() {
+            $("#btn2").click(function () {
+                $.ajax({
+                    url: "/test/sub/",
+                    type: "get",
+                    data: {
+                        name: $("#name").val(),
+                        age: $("#age").val()
+                    },
+                     dataType:"JSON",
+                    success: function (res) {
+                        console.log(res)
+                    }
+                })
+
+            })
+        }
+
+        function btn3event() {
+            $("#btn3").click(function () {
+                    $.ajax({
+                        url: "/task/add/test/",
+                        type: "post",
+                        data: $("#form1").serialize(),
+                        dataType:"JSON",
+                        success: function (res) {
+                            console.log(res)
+                        }
+                    })
+
+                }
+            )
+        }
+
+
+        function clickme() {
+            $.ajax({
+                url: "/test/sub/",
+                type: "post",
+                data: {
+                    n1: 1,
+                    n2: 2
+                },
+                success: function (res) {
+                    console.log(res)
+                }
+            })
+        }
+
+
+    </script>
+
+{% endblock %}

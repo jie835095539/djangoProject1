@@ -1,0 +1,159 @@
+<!--引入内容-->
+{% extends "layout.html" %}
+
+<!--写本界面独有内容-->
+{% block content %}
+  <div class="container">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">任务创建</h3>
+      </div>
+      <div class="panel-body">
+
+        <form id="form2">
+            <div class="clearfix">
+                {% for filed in form %}
+                    <div class="col-xs-4" style="padding: 5px">
+                        <div class="form-group" style="position: relative">
+                            <label>{{ filed.label }}</label>
+                            {{ filed }}
+                            <span class="error_msg" style="position:absolute;color: #d43f3a"></span>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </form>
+        <div class="col-xs-12">
+            <button id="btn5" class="btn-primary btn-default">提交</button>
+            <button id="btn4" class="btn-primary btn-default">测试提交</button>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #d9edf7"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>靓号列表
+            </div>
+            <table border="1" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>任务标题</th>
+                    <th>任务内容</th>
+                    <th>执行人</th>
+                    <th>创建时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in page_queryset %}
+                    <tr>
+                        <td>{{ obj.id }}</td>
+                        <td>{{ obj.title }}</td>
+                        <td>{{ obj.remark }}</td>
+                        <td>{{ obj.do_user }}</td>
+                        <!--通过获取数据库，性别并按照字典值进行展示-->
+                       <td>{{ obj.create_time|date:"Y-m-d" }}</td>
+                        <!--获取时间，并将时间进行格式化后展示-->
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div aria-label="Page navigation" class="clearfix">
+            <ul class="pagination" style="float: left;">
+                {{ page_data }}
+            </ul>
+
+
+        </div>
+
+    </div>
+{% endblock %}
+
+
+
+<!--写本界面独有的js-->
+{% block js %}
+    <script>
+        $(function () {
+            //当界面加载完成后，代码自动执行如下,执行点击按钮事件
+            btn4event();
+            btn3event();
+            btn5event();
+
+        })
+
+        //定义一个函数事件，改事件为查找id为btn的按钮，点击时，进行ajax请求
+
+        function btn5event() {
+            $("#btn5").click(function () {
+                    $.ajax({
+                        url: "/task/add/",
+                        type: "post",
+                        data: $("#form2").serialize(),
+                        dataType: "JSON",
+                        success: function (res) {
+                            //console.log(res)
+                            if (res.status) {
+                                alert("保存成功");
+                                location.reload();
+                            } else {
+                                //console.log(res.error);
+
+                                $(".error_msg").text("");//通过样式查找，并将此样式下标签文本清空；
+                                $(".error_msg").empty();//通过样式查找，并将此样式下标签文本清空；
+                                $.each(res.error, function (name, data) {
+                                    console.log(name, data);
+                                    $("#id_" + name).next().text(data[0])
+                                })
+                            }
+                        }
+                    })
+
+                }
+            )
+        }
+
+        function btn4event() {
+            $("#btn4").click(function () {
+                    $.ajax({
+                        url: "/task/add/test/",
+                        type: "post",
+                        data: $("#form2").serialize(),
+                        dataType: "JSON",
+                        success: function (res) {
+                            console.log(res)
+                        }
+                    })
+
+                }
+            )
+        }
+
+        function btn3event() {
+            $("#btn3").click(function () {
+                    $.ajax({
+                        url: "/task/add/test/",
+                        type: "post",
+                        data: $("#form1").serialize(),
+                        dataType: "JSON",
+                        success: function (res) {
+                            console.log(res)
+                        }
+                    })
+
+                }
+            )
+        }
+
+
+    </script>
+
+{% endblock %}

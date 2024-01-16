@@ -1,0 +1,42 @@
+<!--导入引用的模板-->
+
+{% extends "layout.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="h4">用户添加</h1>
+        <hr>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    <!--<input class="form-control" type="text" name="age" placeholder="age">-->
+                    {{ field }}
+                    <span style="color: #d43f3a">{{ field.errors }}</span>
+                </div>
+            {% endfor %}
+            <div class="form-group"><input class="btn-primary" type="submit" name="submit"/></div>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script>
+        $(function (){
+            $('#id_create_time').datepicker({
+                    format: 'yyyy-mm-dd',
+                    startDate: '0',
+                    language: 'zh-CN',
+                    autoclose: true
+                });
+        })
+    </script>
+{% endblock %}

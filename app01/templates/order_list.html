@@ -1,0 +1,185 @@
+{% extends "layout.html" %}
+<!--主体内容展示-->
+{% block content %}
+    <div class="container">
+        <!--新增按钮区域-->
+        <div>
+            <!--没有ID的跳转，不通过js-->
+            <input type="button" class="btn-success" value="创建订单1" data-toggle="modal" data-target="#myModal">
+            <input id="order_add" type="button" class="btn-success" value="创建订单2">
+        </div>
+        <!--列表展示区域-->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color: #d9edf7">
+                    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>靓号列表
+                </div>
+                <table border="1" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>订单编号</th>
+                        <th>商品名称</th>
+                        <th>商品价格</th>
+                        <th>支付状态</th>
+                        <th>创建人</th>
+                        <th>操作权限</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in page_queryset %}
+                        <tr>
+                            <td>{{ obj.id }}</td>
+                            <td>{{ obj.oid }}</td>
+                            <td>{{ obj.title }}</td>
+                            <td>{{ obj.price }}</td>
+                            <!--通过获取数据库，性别并按照字典值进行展示-->
+                            <td>{{ obj.get_status_display }}</td>
+                            <td>{{ obj.admin }}</td>
+                            <!--获取时间，并将时间进行格式化后展示-->
+
+                            <td>
+                                <input uid="{{obj.id }}"  type="button" value="删除" class="btn-danger btn_delect">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div aria-label="Page navigation" class="clearfix">
+                <ul class="pagination" style="float: left;">
+                    {{ page_data }}
+                </ul>
+
+
+            </div>
+        </div><!--展示数据结束-->
+
+
+    </div>
+    <!--订单新增对话框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">订单新建</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+
+                        <form id="form2">
+                            <div class="clearfix">
+                                {% for filed in form %}
+                                    <div class="col-xs-6" style="padding: 5px">
+                                        <div class="form-group" style="position: relative">
+                                            <label>{{ filed.label }}</label>
+                                            {{ filed }}
+                                            <span class="error_msg" style="position:absolute;color: #d43f3a"></span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </form>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="btnsave" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--订单删除详情对话框-->
+    <div class="modal fade" id="delectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4>确认是否要删除数据？</h4>
+                <p>删除数据后，将无法再回复数据，删除后关联到数据响应一并删除，请确认是否要继续！</p>
+                <p style="text-align: right">
+                    <button type="button" class="btn btn-danger">确 认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--js部分-->
+{% block js %}
+    <script type="text/javascript">
+
+    //提前定义一个全局变量，此全局变量用于删除数据到时候使用；
+     var DEL_ID;
+        //界面加载后，执行如下函数
+        $(function () {
+            order_add_event();
+            btnsave();
+            btndelect();
+        })
+
+        function order_add_event() {
+            $("#order_add").click(function () {
+                $('#myModal').modal('show')
+            })
+        }
+
+        function btnsave() {
+            $("#btnsave").click(function () {
+                $.ajax({
+                    url: "/order/add/",
+                    type: "post",
+                    data: $("#form2").serialize(),
+                    dataType: "JSON",
+                    success: function (res) {
+                        //console.log(res)
+                        if (res.status) {
+                            alert("保存成功");
+                            // location.reload();
+
+                            $("#form2")[0].reset();//将表单内容只为空
+                            $('#myModal').modal('hide');//隐藏模态框，关闭弹框
+                            location.reload();//刷新当前界面
+
+                        } else {
+                            //console.log(res.error);
+
+                            $(".error_msg").text("");//通过样式查找，并将此样式下标签文本清空；
+                            $(".error_msg").empty();//通过样式查找，并将此样式下标签文本清空；
+                            $.each(res.error, function (name, data) {
+                                console.log(name, data);
+                                $("#id_" + name).next().text(data[0])
+                            })
+                        }
+                    }
+                })
+
+
+            })
+        }
+
+
+        function btndelect() {
+            $(".btn_delect").click(function () {
+                //alert("点击了删除");
+                $("#delectModal").modal("show");
+                //当点击当前按钮时，获取按钮自定义当uid这个字段当值，并将这个值赋值给提前定义的全局变量；
+                DEL_ID=$(this).attr("uid");
+                console.log(DEL_ID);
+
+
+            })
+        }
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<!--导入引用的模板-->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a class="btn bg-success" href="/admin/add/" target="blank">管理员新增</a>
+            <div style="float: right;width: 300px">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="姓名" name="username"
+                               value="{{ username }}">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                        </span>
+                    </div><!-- /input-group -->
+                </form>
+            </div>
+
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>管理员列表</div>
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>管理员名称</th>
+                    <th>管理员账号</th>
+                    <th>登录密码</th>
+                    <th>重置密码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in form_data %}
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.account }}</td>
+                        <td>{{ item.password }}</td>
+                        <td>
+                            <a href="/admin/{{ item.id }}/reset">重置密码</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="/admin/{{ item.id }}/edit/" target="_blank">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="/admin/{{ item.id }}/delect/">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div aria-label="Page navigation" class="clearfix">
+            <ul class="pagination">
+                {{ page_string }}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

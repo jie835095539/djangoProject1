@@ -1,0 +1,42 @@
+<!--导入引用的模板-->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a class="btn bg-success" href="/depart/add/" target="blank">部门新增</a>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>部门列表</div>
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>部门名称</th>
+                    <th>公司名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in departs %}
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.depart_name }}</td>
+                        <td>{{ item.company }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="/depart/{{ item.id }}/edit/" target="_blank">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="/depart/delect/?nid={{ item.id }}">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div aria-label="Page navigation" class="clearfix">
+            <ul class="pagination">
+                {{ page_data }}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
